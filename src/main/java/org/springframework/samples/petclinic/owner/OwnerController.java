@@ -57,9 +57,11 @@ class OwnerController {
 
 	@GetMapping("/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
+		// initCreationForm 메서드가 동작하면서 FIND OWNERS탭의 VIEW가 보여지게 된다.
+	    Owner owner = new Owner();
 		model.put("owner", owner);
-		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;   // return 하는 문자열은 view이름에 해당한다.(어떤 view를 보여줄것인가)
+        // 위에서 다음을 정의함 private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 	}
 
 	@PostMapping("/owners/new")
