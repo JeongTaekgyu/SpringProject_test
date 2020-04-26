@@ -55,13 +55,15 @@ class OwnerController {
 		dataBinder.setDisallowedFields("id");
 	}
 
+	// get 요청이 오면
 	@GetMapping("/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
+	    // 디스패쳐 서블릿이 (initCreationForm 메서드? / 아님 Owner 메서드? ) 를 호출해주고
 		// initCreationForm 메서드가 동작하면서 FIND OWNERS탭의 VIEW가 보여지게 된다.
-	    Owner owner = new Owner();
+		Owner owner = new Owner();
 		model.put("owner", owner);
-		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;   // return 하는 문자열은 view이름에 해당한다.(어떤 view를 보여줄것인가)
-        // 위에서 다음을 정의함 private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
+		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM; // return 하는 문자열은 view이름에 해당한다.(어떤 view를 보여줄것인가)
+		// 위에서 다음을 정의함 private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 	}
 
 	@PostMapping("/owners/new")
@@ -85,12 +87,13 @@ class OwnerController {
 	public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
 
 		// allow parameterless GET request for /owners to return all records
-		if (owner.getLastName() == null) {
-			owner.setLastName(""); // empty string signifies broadest possible search
+		if (owner.getFirstName() == null) {
+			owner.setFirstName(""); // empty string signifies broadest possible search
+            // getFirstName() 이 null 이면 firstName을 아무것도 없는걸로(?) 만든다.
 		}
 
-		// find owners by last name
-		Collection<Owner> results = this.owners.findByLastName(owner.getLastName());
+		// find owners by first name
+		Collection<Owner> results = this.owners.findFirstName(owner.getFirstName());
 		if (results.isEmpty()) {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
